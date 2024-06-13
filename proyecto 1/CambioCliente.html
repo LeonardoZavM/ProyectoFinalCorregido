@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <title>Servicio al Cliente</title>
+</head>
+<body>
+    <h1>Actualizacion del Servicio al cliente</h1>
+    <form id="formulario_cliente">
+        <label for="id_cliente">ID de cliente:</label>
+            <input type="number" id="id_cliente" class="w3-input" name="id_cliente" required>
+            <br>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" class="w3-input" name="nombre" required>
+            <br>
+            <label for="apellidos">Apellidos:</label>
+            <input type="text" id="apellidos" class="w3-input" name="apellidos" required>
+            <br>
+            <label for="nombre">correo:</label>
+            <input type="text" id="correo" class="w3-input" name="correo" required>
+            <br>
+            <button type="button" id="btn_registrar">Registrar Cliente</button>
+            <button type="button" onclick="goBack()">Regresar</button>
+    </form>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        document.getElementById("btn_registrar").addEventListener("click", function() {
+                event.preventDefault();
+                let id_cliente=document.getElementById("id_cliente").value;
+                let nombre=document.getElementById("nombre").value;
+                let apellidos=document.getElementById("apellidos").value;
+                let correo=document.getElementById("correo").value;
+
+                
+
+                let parametros="?&id_cliente="+id_cliente+"&nombre="+nombre+"&apellidos="+apellidos+"&correo="+correo; 
+                let request = new Request('http://localhost/proyecto1/php/CambioCliente.php'+parametros, 
+                {
+                    method: 'get',
+                    headers: {'Content-Type':'application/x-www-form-urlencoded'}
+                });
+                fetch(request).then(function(returnedValue) {
+                    if(returnedValue.ok){
+                        console.log("operacion correcta");
+                        returnedValue.text().then((txt)=>{
+                            console.log('muestro respuesta: ', txt);
+                            document.write('recibo de regreso: ',txt);
+                        });
+                    }
+                }).catch(function(err) {
+                    console.log(err);
+                });
+            });
+
+	
+    </script>
+</body>
+</html>
